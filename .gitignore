@@ -4,3 +4,10 @@ __pycache__/
 .venv/
 env/
 househub_env/
+secret.key
+*.zip
+*.db
+*.sqlite3
+data/flagged_docs/
+.pytest_cache/
+archive_legacy_files/
