@@ -266,6 +266,14 @@ elif page == "🔒 Admin Dashboard":
         if st.button("Logout"):
             st.session_state.admin_authenticated = False
             st.rerun()
+            
+    if 'admin_flash_msg' in st.session_state:
+        st.success(st.session_state.admin_flash_msg)
+        del st.session_state.admin_flash_msg
+        
+    if 'admin_flash_info' in st.session_state:
+        st.info(st.session_state.admin_flash_info)
+        del st.session_state.admin_flash_info
     
     # KPIs
     clean_q = db.get_queue(forged_only=False)
@@ -312,7 +320,7 @@ elif page == "🔒 Admin Dashboard":
                     if app['status'] in ['Pending', 'Rejected']:
                         if st.button("✅ Approve", key=f"app_{app['user_token']}"):
                             real_name = db.approve_applicant(app['user_token'])
-                            st.success(f"Approved! Citizen Name: **{real_name}**")
+                            st.session_state.admin_flash_msg = f"Approved! Citizen Name: **{real_name}**"
                             st.rerun()
                         
                         reject_reason = st.text_input("Rejection Reason", key=f"r_res_{app['user_token']}")
@@ -321,7 +329,7 @@ elif page == "🔒 Admin Dashboard":
                                 st.warning("Please provide a reason to reject.")
                             else:
                                 res = db.reject_applicant(app['user_token'], reject_reason)
-                                st.info(f"Updated: {res['status']}")
+                                st.session_state.admin_flash_info = f"Updated: {res['status']}"
                                 st.rerun()
                 st.markdown("</div>", unsafe_allow_html=True)
 
