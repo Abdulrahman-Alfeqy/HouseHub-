@@ -241,7 +241,7 @@ class DatabaseManager:
                 
                 conn.commit()
                 
-                conn.row_factory = sqlite3.Row
+                cursor.row_factory = sqlite3.Row
                 cursor.execute("SELECT status, rejection_count FROM assessment_data WHERE user_token = ?", (user_token,))
                 row = cursor.fetchone()
                 
